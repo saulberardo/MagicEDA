@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This modules packages methods to create graphs useful in Exploratory Data Analysis.
-
-Methods included:
+Methods to create useful graphs for ploting distributions o single variables. Methods included:
 
  : plot_bar_chart
      Plot barplot showing the distribution of a categorical variable (for one or multiple series of data). 
@@ -11,7 +9,6 @@ Methods included:
      Plot a grid of subplots in which each subplot shows the distribution of a variable of the data frame. For
      numerical variabels a histogram is shown. For categorical, a barplot whose bars lengths are proportional
      to the percentage of each category in the column.
-
 """
 
 
@@ -23,7 +20,6 @@ import math
 from matplotlib.gridspec import GridSpec
 
 
-
 def _is_numeric(series):
     """ Determine if the pandas.core.series.Series is numeric """
     return series.dtype == 'int' or series.dtype == 'float'
@@ -33,13 +29,13 @@ def _is_categorical(series):
     return pd.core.categorical._is_categorical(series)
     
 def _get_percentage_of_categorical(series):
-    """ Return a Pandas series with the percents of each categy, indexed by the categries names """
+    """ Return a Pandas series with the percents of each category, indexed by the categries names """
     counts = series.value_counts()
     porcentagens = 100 * (counts / sum(counts))
     return porcentagens
 
 
-def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title='', width=0.9, xticks_rotation=0, series_legends=None, legend=True, ax=None):
+def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title='', width=0.9, xticks_rotation=0, series_legends=None, ax=None):
     """
     Plot barplot showing the distribution of a categorical variable (for one or multiple series of data). 
     
@@ -82,60 +78,83 @@ def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title=
     # In the case a unique series is passed as parameters, wrap it in a list
     if not isinstance(data, list):
         data = [data]
-    
-    # Number of series
-    num_de_series = len(data)
         
-    # Extract categories names (the returned order is the order used for bars)
-    categorias = data[0].cat.categories # We assume here that the first series has all categories (BUG: it can be wrong!!!)
+    # Determine series type (pandas can represent categorical data with at least three different classes!)
+    first_series = data[0]   
+  
+    # If the Series is of "objects" (usually strings)
+    if first_series.dtype == 'O':
+        
+        # Get list of different strings
+        categorias = np.unique(data)
+        
+    # If it is a series create by pd.Series([...], dtype='category') or equivalent (e.g. pd.Series(pd.Categorical([...], [...])) )
+    elif first_series.dtype == 'category':             
+        
+        # Get list of categories
+        categorias = data[0].cat.categories # We assume here that the first series has all categories (BUG: it can be wrong!!!)
+        
+    else:
+        raise Exception('Invalid data type %s' % data[0].dtype )
     
     # Number of different categories
     num_de_categorias = len(categorias)
+    
+    # Number of series
+    num_de_series = len(data)
     
     # Colormap to use in the graph
     colors = plt.cm.get_cmap(cmap, num_de_series)     
     
     # Position of each category
-    x_locations = np.arange(num_de_categorias)
+    x_locations = np.arange(num_de_categorias) * num_de_series
     
     # Create figure
     if ax == None:
         fig, ax = plt.subplots()
     
+    # Create series names, if not provided    
+    if series_legends == None:    
+        series_legends = ['Series %i' % i for i in range(1, num_de_series + 1)]    
+    
     # For each series
     for idx, series in enumerate(data):
-        
-       
+               
         # Compute the porcentage of each category
         porcentagens = _get_percentage_of_categorical(series)      
         porcentagens = porcentagens[categorias] # Assure that percentages will be returned in the same order as the legend
         
         # Determine color to use in this series
-        color = color if color != None else colors(idx)        
+        new_color = color if color != None else colors(idx)      
+        print idx, color
         
         # Plot bars
-        ax.bar(x_locations + idx*width, porcentagens, width, color=color)
+        ax.bar(x_locations + idx*width, porcentagens, width, color=new_color, label=series_legends[idx])
 
-    # Plot texts of the graphs
+    # Plot title and axis labels
     ax.set_ylabel(ylabel)
     ax.set_xlabel(xlabel)
-    ax.set_title(title)
-    
-    # Add legend
-    if legend:
-        ax.legend(categorias, loc='best')
+    ax.set_title(title)    
             
-    # Overwrite legend labels, if as specified
-    if series_legends != None:
-        ax.set_xticks(x_locations + width/2)
-        ax.set_xticklabels(series_legends, rotation=xticks_rotation)
+    # If there is more than one series
+    if num_de_series > 1:
+        
+        # Show legend
+        ax.legend(loc='best')
+        
+        # Draw categories names
+        #...        
+        
+    # If there is just one series
     else:
-    # Otherwise, use category names
+        
+        # Draw categories names
         ax.set_xticks(x_locations + width/2)
         ax.set_xticklabels(categorias, rotation=xticks_rotation)
-
+    
+    
     # Add some small gap before the first and after the last category
-    ax.set_xlim(min(x_locations) - width/9, max(x_locations) + width + width/9)
+    ax.set_xlim(min(x_locations) - width/9, max(x_locations) + width*num_de_series + width/9)
 
     # Return the axes in which the graph was plotted
     return ax
@@ -251,7 +270,14 @@ def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, sha
 
 if __name__=='__main__':
     
+   # Test series with categorical data
+   d1 = pd.Series(pd.Categorical(['c', 'a', 'c', 'a', 'c', 'b'], ['c','b','a']))
+   plot_bar_chart(d1)
    
-    plot_dataframe_profile(a.df, include_cols=['timestamp','Data','Hora','km',u'Combustível', 'metros'], wspace=0.1, hspace=0.5, xticks_rotation={'Acelerador':90, 'Cabsignal':90}, colors={'Acelerador':'red', 'Cabsignal':'black'})
-    #plot_bar_chart(a.df.Acelerador)
-    plt.show()
+   # Test series with string data
+   d2 = pd.Series(['b', 'b', 'b', 'a', 'b', 'c'])
+   plot_bar_chart(d2)
+   
+   # Test both series at the same time
+   plot_bar_chart([d1, d2])
+        
