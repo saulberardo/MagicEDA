@@ -1,6 +1,24 @@
 # -*- coding: utf-8 -*-
 """
+Script to plot the distributions of all variables from a CSV file. This script is inteteded for very simples
+use cases. For anything more complex and customizable, prefear to use directly the function plot_dataframe_profile from 
+the magikeda.univar package.
 
+usage: plot_data_frame_profile.py [-h] [--sep SEP] [--encoding ENCODING]
+                                  input_file
+
+positional arguments:
+  input_file           CSV file.
+
+optional arguments:
+  -h, --help           show this help message and exit
+  --sep SEP            Separator used in CSV. Default is coma ",".
+  --encoding ENCODING  File encoding used by the CSV file. Accepts any valid
+                       encoding to pass to pandas.read_csv method. Default is
+                       "latin1".
+Erro: too few arguments
+To exit: use 'exit', 'quit', or Ctrl-D.
+An exception has occurred, use %tb to see the full traceback.
 
 """
 
@@ -30,12 +48,7 @@ class MyParser(argparse.ArgumentParser):
         """
         sys.stderr.write('Erro: %s\n' % msg)
         self.print_help()
-        sys.exit(2)
-        
-        
-def _plot_dataframe(data_frame):
-    """ """
-    pass
+        sys.exit(2)        
         
         
 if __name__=='__main__':
@@ -49,6 +62,6 @@ if __name__=='__main__':
     
     univar.plot_dataframe_profile(data)
     
-    print data
+    #print data
     print args.input_file, args.sep, args.encoding
     

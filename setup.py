@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='MagikEDA',
-    version='0.1.2',
+    version='0.1.3',
     author='Saul Campos Berardo',
     author_email='saulberardo@gmail.com',
     packages=['magikeda'],
@@ -10,7 +10,7 @@ setup(
     url='http://pypi.python.org/pypi/MagikEDA/',
     license='LICENSE',
     description='Scripts to help Exploratory Data Analysis',
-    long_description=open('README.md').read(),
+    long_description=open('README').read(),
     install_requires=[
         "pandas >= 0.15.2",
         "numpy >= 1.9.2",

@@ -26,7 +26,7 @@ def _is_numeric(series):
     
 def _is_categorical(series):
     """ Determine if the pandas.core.series.Series is categorical """
-    return pd.core.categorical._is_categorical(series)
+    return str(series.dtype) == 'object' or str(series.dtype) == 'category'
     
 def _get_percentage_of_categorical(series):
     """ Return a Pandas series with the percents of each category, indexed by the categries names """
@@ -74,7 +74,7 @@ def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title=
             Axes where the figure has been plotted.
     
     """
-    
+
     # In the case a unique series is passed as parameters, wrap it in a list
     if not isinstance(data, list):
         data = [data]
@@ -126,7 +126,6 @@ def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title=
         
         # Determine color to use in this series
         new_color = color if color != None else colors(idx)      
-        print idx, color
         
         # Plot bars
         ax.bar(x_locations + idx*width, porcentagens, width, color=new_color, label=series_legends[idx])
