@@ -80,16 +80,16 @@ def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title=
         data = [data]
         
     # Determine series type (pandas can represent categorical data with at least three different classes!)
-    first_series = data[0]   
+    data_type = str(data[0].dtype)
   
     # If the Series is of "objects" (usually strings)
-    if first_series.dtype == 'O':
+    if data_type == 'object':
         
         # Get list of different strings
         categorias = np.unique(data)
         
     # If it is a series create by pd.Series([...], dtype='category') or equivalent (e.g. pd.Series(pd.Categorical([...], [...])) )
-    elif first_series.dtype == 'category':             
+    elif data_type == 'category':             
         
         # Get list of categories
         categorias = data[0].cat.categories # We assume here that the first series has all categories (BUG: it can be wrong!!!)
@@ -149,6 +149,7 @@ def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title=
         
         # Draw categories names
         ax.set_xticks(x_locations + width/2)
+        categorias = [cat.decode('utf8') for cat in categorias] # Convert categires names to utf8 (matplotlib doesn't non ascii chars)
         ax.set_xticklabels(categorias, rotation=xticks_rotation)
     
     
@@ -160,7 +161,7 @@ def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title=
 
 ''''''''''''''''''''''''''''''''''''''''''''
 
-def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, shape = None, hspace=0.2, wspace=0.2, xticks_rotation={}, colors={}, color='blue', bins=30):
+def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, shape = None, hspace=0.4, wspace=0.2, xticks_rotation={}, colors={}, color='blue', bins=30, title=''):
     """
     Plot a grid of subplots in which each subplot shows the distribution of a variable of the data frame. For
     numerical variabels a histogram is shown. For categorical, a barplot whose bars lengths are proportional
@@ -178,7 +179,9 @@ def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, sha
             A list with the column names that should be included in the plot. Default is None, which means all columns. If this
             parameter is used, just the columns specified are included, in the given order.
             
-        remove_cols :
+        remove_cols : list
+            A list with the column names that should not be included in the plot. Columns listed here will be removed even if included
+            inthe include_cols list.
             
         shape : tuple
             A (rows, columns) tuples indicating the shape of the grid.
@@ -190,7 +193,7 @@ def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, sha
             Horizontal space betwwn subplots.
             
         xticks_rotation : dict
-            Dictionary associating column names to xtick label oriantation (in degrees).
+            Dictionary associating column names to xtick label orientation (in degrees).
 
         color : str
             Default color name for all graphs.
@@ -198,8 +201,11 @@ def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, sha
         colors : dict
             Dictionary associating column names to colors (override defaults color).
             
+        title : str
+            General title.
+            
     
-    Return
+    Returns
     -------
     
         gs : GridSpec
@@ -251,7 +257,7 @@ def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, sha
         if _is_categorical(data_frame[column_name]):                      
             
             # Plot barplot
-            plot_bar_chart(data_frame[column_name], ax=ax, legend=False, title=column_name, xticks_rotation=rotation, color=new_color)         
+            plot_bar_chart(data_frame[column_name], ax=ax, title=column_name.decode('utf8'), xticks_rotation=rotation, color=new_color)         
         
         # If is numeric
         if _is_numeric(data_frame[column_name]):
@@ -261,8 +267,11 @@ def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, sha
             
             # Plot histogram
             ax.hist(data_frame[column_name], weights=weigths, color=new_color, bins=bins)
-            ax.set_title(column_name)
+            ax.set_title(column_name.decode('utf8'))
             ax.grid()
+            
+    # Set the general title
+    plt.suptitle(title)
             
     # Return the GridSpec with subplots
     return gs

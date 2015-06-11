@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Script to plot the distributions of all variables from a CSV file. This script is inteteded for very simples
-use cases. For anything more complex and customizable, prefear to use directly the function plot_dataframe_profile from 
-the magikeda.univar package.
+Script to plot the distributions of all variables from a CSV file. 
+
+This script is inteteded for VERY simples use cases. For anything more complex and customizable, 
+prefear to use directly the function plot_dataframe_profile from the magikeda.univar package.
+
 
 usage: plot_data_frame_profile.py [-h] [--sep SEP] [--encoding ENCODING]
                                   input_file
