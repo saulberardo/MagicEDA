@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Methods to create useful graphs for ploting distributions o single variables. Methods included:
+Functions to create useful graphs for ploting distributions o single variables. Methods included:
 
  : plot_bar_chart
      Plot barplot showing the distribution of a categorical variable (for one or multiple series of data). 
  
  : plot_dataframe_profile
      Plot a grid of subplots in which each subplot shows the distribution of a variable of the data frame. For
-     numerical variabels a histogram is shown. For categorical, a barplot whose bars lengths are proportional
+     numerical variables a histogram is shown. For categorical, a barplot whose bars lengths are proportional
      to the percentage of each category in the column.
 """
 
@@ -23,11 +23,11 @@ from matplotlib.gridspec import GridSpec
 def _is_numeric(series):
     """ Determine if the pandas.core.series.Series is numeric """
     return series.dtype == 'int' or series.dtype == 'float'
-    
+
 def _is_categorical(series):
     """ Determine if the pandas.core.series.Series is categorical """
     return str(series.dtype) == 'object' or str(series.dtype) == 'category'
-    
+
 def _get_percentage_of_categorical(series):
     """ Return a Pandas series with the percents of each category, indexed by the categries names """
     counts = series.value_counts()
@@ -37,42 +37,42 @@ def _get_percentage_of_categorical(series):
 
 def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title='', width=0.9, xticks_rotation=0, series_legends=None, ax=None):
     """
-    Plot barplot showing the distribution of a categorical variable (for one or multiple series of data). 
-    
+    Plot barplot showing the distribution of a categorical variable (for one or multiple series of data).
+
     Parameters
     ----------
-    
+
         data : list or pandas.core.series.Series
             Pandas series (with categorical data) or list of series. For multiple series, each categories are grouped together.
-            
+
         cmap : matplotlib.colors.LinearSegmentedColormap
-            Colormap to use for determing each category color. Defualt is 'Accent'.
-            
-        color : color to use in the graph (overrides colormap colors). Default is None, which means not to overide colormap colors.
-        
+            Colormap to use for determining each category color. Default is 'Accent'.
+
+        color : color to use in the graph (overrides colormap colors). Default is None, which means not to override colormap colors.
+
         xlabel, ylabel, title : guess what...
-        
+
         width : float
             Width of each bar. Default is 0.9
-                    
+
         xticks_rotation : float
-            Degrees to rotate x labels.            
-        
+            Degrees to rotate x labels.
+
         series_legends : list
             Legends to identify each series.
-            
+
         legend : boolean
             Whether to show or not the legend box.
-            
+
         ax : matplotlib.axes_subplots.AxesSubplot
             Axes in which to plot the graph
-    
+
     Returns
     -------
-    
+
         ax : matplotlib.axes_subplots.AxesSubplot
             Axes where the figure has been plotted.
-    
+
     """
 
     # In the case a unique series is passed as parameters, wrap it in a list
@@ -159,7 +159,6 @@ def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title=
     # Return the axes in which the graph was plotted
     return ax
 
-''''''''''''''''''''''''''''''''''''''''''''
 
 def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, shape = None, hspace=0.4, wspace=0.2, default_xticks_rotation=0, xticks_rotation={}, default_color='blue', colors={}, bins=30, title='', titles={}, default_ylabel='', ylabels={}, default_xlabel='', xlabels={}):
     """
@@ -311,17 +310,4 @@ def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, sha
 
 if __name__=='__main__':
     
-   # Test series with categorical data
-   d1 = pd.Series(pd.Categorical(['c', 'a', 'c', 'a', 'c', 'b'], ['c','b','a']))
-   #plot_bar_chart(d1)
-   
-   # Test series with string data
-   d2 = pd.Series(['b', 'b', 'b', 'a', 'b', 'c'])
-   #plot_bar_chart(d2)
-   
-   # Test both series at the same time
-   plot_bar_chart([d1, d2])
-   
-   plot_dataframe_profile(pd.DataFrame({'Var 1':d1, 'Var 2':d2, 'Var 3': pd.Series(np.random.rand(6)) } ), default_ylabel='Time (%)', ylabels={'Var 1':'Label of Var 1'}, default_xlabel='State', xlabels={'Var 2':'X lable of Var 2'})
-   plt.show()
-        
+    pass
