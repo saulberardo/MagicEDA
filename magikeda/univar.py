@@ -125,10 +125,10 @@ def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title=
         porcentagens = porcentagens[categorias] # Assure that percentages will be returned in the same order as the legend
         
         # Determine color to use in this series
-        new_color = color if color != None else colors(idx)      
+        series_color = color if color != None else colors(idx)      
         
         # Plot bars
-        ax.bar(x_locations + idx*width, porcentagens, width, color=new_color, label=series_legends[idx])
+        ax.bar(x_locations + idx*width, porcentagens, width, color=series_color, label=series_legends[idx])
 
     # Plot title and axis labels
     ax.set_ylabel(ylabel)
@@ -161,7 +161,7 @@ def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title=
 
 ''''''''''''''''''''''''''''''''''''''''''''
 
-def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, shape = None, hspace=0.4, wspace=0.2, xticks_rotation={}, colors={}, color='blue', bins=30, title=''):
+def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, shape = None, hspace=0.4, wspace=0.2, default_xticks_rotation=0, xticks_rotation={}, default_color='blue', colors={}, bins=30, title='', titles={}, default_ylabel='', ylabels={}, default_xlabel='', xlabels={}):
     """
     Plot a grid of subplots in which each subplot shows the distribution of a variable of the data frame. For
     numerical variabels a histogram is shown. For categorical, a barplot whose bars lengths are proportional
@@ -176,35 +176,57 @@ def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, sha
             The Pandas data frame whose columns will be plotted.
             
         include_cols : list
-            A list with the column names that should be included in the plot. Default is None, which means all columns. If this
-            parameter is used, just the columns specified are included, in the given order.
+            A list with the column names that should be included in the plot. Default is None, which means all columns. 
+            If this parameter is used, just the columns specified are included, in the given order.
             
         remove_cols : list
-            A list with the column names that should not be included in the plot. Columns listed here will be removed even if included
-            inthe include_cols list.
+            A list with the column names that should not be included in the plot. Columns listed here will be removed 
+            even if included in the include_cols list.
             
         shape : tuple
-            A (rows, columns) tuples indicating the shape of the grid.
+            A (rows, columns) tuples indicating the shape of the grid. Default is to use the square root of the number of variables
+            as the number of columns, and as many rows as necessary to show all variables.
             
         hspace : float
             Vertical space between subplots.
             
         wspace : float
             Horizontal space betwwn subplots.
-            
+        
+        default_xticks_rotation : float
+            Default roatation in degrees of the category names in bar grpahs.        
+        
         xticks_rotation : dict
             Dictionary associating column names to xtick label orientation (in degrees).
 
-        color : str
-            Default color name for all graphs.
+        default_color : str
+            Default color name for all subplots.            
             
         colors : dict
             Dictionary associating column names to colors (override defaults color).
             
         title : str
-            General title.
+            General title to use above all subplots.
             
-    
+        titles : dict
+            Dictionary associating column names to titles to use in each subplot. If a value is not specified for a
+            column, the colum name is used as title.
+            
+        default_ylabel : str
+            Default lable to use in the y axis.
+            
+        ylabels : dict
+            Dictionary associating columnnames to y labels to use in each subplot. If a value is not specified for a
+            column, the default_ylabel is used.
+            
+        default_xlabel : str
+            Default lable to use in the y axis.
+            
+        xlabels : dict
+            Dictionary associating columnnames to y labels to use in each subplot. If a value is not specified for a
+            column, the default_ylabel is used.
+                
+                
     Returns
     -------
     
@@ -212,7 +234,7 @@ def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, sha
             Return the GridSpec created with the subplots.
     
     """
-
+    
     # Keep just specified columns, if it is the case
     if include_cols != None:
         #data_frame = data_frame[include_cols]
@@ -248,16 +270,19 @@ def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, sha
         ax = plt.subplot(gs[col_idx])        
         
         # Determine the rotation of xticks for this plot                
-        rotation = xticks_rotation[column_name] if column_name in xticks_rotation else 0            
+        rotation = xticks_rotation[column_name] if column_name in xticks_rotation else default_xticks_rotation            
 
         # Determine the color
-        new_color = colors[column_name] if column_name in colors else color
+        subplot_color = colors[column_name] if column_name in colors else default_color
+        
+        # Determine subplot title
+        subplot_title = titles[column_name] if column_name in titles else column_name.decode('utf8')    
         
         # Is is categorical
         if _is_categorical(data_frame[column_name]):                      
             
             # Plot barplot
-            plot_bar_chart(data_frame[column_name], ax=ax, title=column_name.decode('utf8'), xticks_rotation=rotation, color=new_color)         
+            plot_bar_chart(data_frame[column_name], ax=ax, title=subplot_title, xticks_rotation=rotation, color=subplot_color)         
         
         # If is numeric
         if _is_numeric(data_frame[column_name]):
@@ -266,9 +291,17 @@ def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, sha
             weigths = (np.zeros_like(data_frame[column_name]) + 100.) / len(data_frame[column_name])
             
             # Plot histogram
-            ax.hist(data_frame[column_name], weights=weigths, color=new_color, bins=bins)
-            ax.set_title(column_name.decode('utf8'))
+            ax.hist(data_frame[column_name], weights=weigths, color=subplot_color, bins=bins)
+            ax.set_title(subplot_title)
             ax.grid()
+            
+        # Set the y label
+        ylabel = ylabels[column_name] if column_name in ylabels else default_ylabel
+        ax.set_ylabel(ylabel)
+        
+        # Set the x Label
+        xlabel = xlabels[column_name] if column_name in xlabels else default_xlabel
+        ax.set_xlabel(xlabel)        
             
     # Set the general title
     plt.suptitle(title)
@@ -280,12 +313,15 @@ if __name__=='__main__':
     
    # Test series with categorical data
    d1 = pd.Series(pd.Categorical(['c', 'a', 'c', 'a', 'c', 'b'], ['c','b','a']))
-   plot_bar_chart(d1)
+   #plot_bar_chart(d1)
    
    # Test series with string data
    d2 = pd.Series(['b', 'b', 'b', 'a', 'b', 'c'])
-   plot_bar_chart(d2)
+   #plot_bar_chart(d2)
    
    # Test both series at the same time
    plot_bar_chart([d1, d2])
+   
+   plot_dataframe_profile(pd.DataFrame({'Var 1':d1, 'Var 2':d2, 'Var 3': pd.Series(np.random.rand(6)) } ), default_ylabel='Time (%)', ylabels={'Var 1':'Label of Var 1'}, default_xlabel='State', xlabels={'Var 2':'X lable of Var 2'})
+   plt.show()
         
