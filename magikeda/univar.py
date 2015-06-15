@@ -277,13 +277,13 @@ def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, sha
         # Determine subplot title
         subplot_title = titles[column_name] if column_name in titles else column_name.decode('utf8')    
         
-        # Is is categorical
+        # Is it is categorical
         if _is_categorical(data_frame[column_name]):                      
             
             # Plot barplot
             plot_bar_chart(data_frame[column_name], ax=ax, title=subplot_title, xticks_rotation=rotation, color=subplot_color)         
         
-        # If is numeric
+        # If it is numeric
         if _is_numeric(data_frame[column_name]):
             
             # Calculate the weiths used to transform data in percents
