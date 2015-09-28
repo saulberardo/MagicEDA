@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='MagikEDA',
-    version='0.1.3',
+    version='0.1.5',
     author='Saul Campos Berardo',
     author_email='saulberardo@gmail.com',
     packages=['magikeda'],

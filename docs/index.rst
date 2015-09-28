@@ -6,10 +6,10 @@
 MagikEDA Home
 =============
 
-MagikEDA is a python library which provides functions to quickly create useful graphs 
-for Exploratory Data Analysis (EDA). This documentation is work in progress. Please,
-come back later and perhaps there will be some honey driping from some bees that usually
-fly these rainbows.
+MagikEDA is a python library which provides a set of useful functions to create graphs meant to be useful in
+Exploratory Data Analysis (EDA). It is concived to lay one layer above libraries such as Pandas and Basemap.
+
+This documentation is work in progress. Please, come back later and perhaps there will be some descent docs here.
 
 Contents:
 
@@ -18,7 +18,8 @@ Contents:
 
    install_instructions.rst
    features.rst
-   quick_start.rst
+   modules.rst
+
 
 
 

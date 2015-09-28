@@ -39,6 +39,19 @@ class UnivarTestCase(unittest.TestCase):
             xlabels={'Var 2': 'X lable of Var 2'}
         )
 
+    def test_add_extra_xaxis(self):
+
+        # Create a new figure
+        f, _ = plt.subplots()
+
+        # Plota a curve
+        plt.plot([1,2,3,2,5])
+
+        # Add a new xaxis
+        univar.add_extra_xaxis(f, [1,4],['a','b'])
+
+
+
     def setUp(self):
         # Disable auto-plotting
         plt.ioff()

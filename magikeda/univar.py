@@ -1,14 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Functions to create useful graphs for ploting distributions o single variables. Methods included:
-
- : plot_bar_chart
-     Plot barplot showing the distribution of a categorical variable (for one or multiple series of data). 
- 
- : plot_dataframe_profile
-     Plot a grid of subplots in which each subplot shows the distribution of a variable of the data frame. For
-     numerical variables a histogram is shown. For categorical, a barplot whose bars lengths are proportional
-     to the percentage of each category in the column.
+"""Functions to create graphs for ploting distributions of single variables.
 """
 
 
@@ -36,43 +27,37 @@ def _get_percentage_of_categorical(series):
 
 
 def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title='', width=0.9, xticks_rotation=0, series_legends=None, ax=None):
-    """
-    Plot barplot showing the distribution of a categorical variable (for one or multiple series of data).
+    """Plot a barplot showing the distribution of a categorical variable (for one or multiple series of data).
 
     Parameters
     ----------
-
-        data : list or pandas.core.series.Series
-            Pandas series (with categorical data) or list of series. For multiple series, each categories are grouped together.
-
-        cmap : matplotlib.colors.LinearSegmentedColormap
-            Colormap to use for determining each category color. Default is 'Accent'.
-
-        color : color to use in the graph (overrides colormap colors). Default is None, which means not to override colormap colors.
-
-        xlabel, ylabel, title : guess what...
-
-        width : float
-            Width of each bar. Default is 0.9
-
-        xticks_rotation : float
-            Degrees to rotate x labels.
-
-        series_legends : list
-            Legends to identify each series.
-
-        legend : boolean
-            Whether to show or not the legend box.
-
-        ax : matplotlib.axes_subplots.AxesSubplot
-            Axes in which to plot the graph
+    data : list or pandas.core.series.Series
+        Pandas series (with categorical data) or list of series. For multiple series, each categories are grouped together.
+    cmap : matplotlib.colors.LinearSegmentedColormap
+        Colormap to use for determining each category color. Default is 'Accent'.
+    color : Color
+        color to use in the graph (overrides colormap colors). Default is None, which means not to override colormap colors.
+    xlabel : str
+        Label of the x axis.
+    ylabel : str
+        Label of the x axis.
+    title : str
+        Figure title.
+    width : float
+        Width of each bar. Default is 0.9
+    xticks_rotation : float
+        Degrees to rotate x labels.
+    series_legends : list
+        Lgends to identify each series.
+    legend : boolean
+        Whether to show or not the legend box.
+    ax : matplotlib.axes_subplots.AxesSubplot
+        Axes in which to plot the graph
 
     Returns
     -------
-
-        ax : matplotlib.axes_subplots.AxesSubplot
-            Axes where the figure has been plotted.
-
+    ax : matplotlib.axes_subplots.AxesSubplot
+        Axes where the figure has been plotted.
     """
 
     # In the case a unique series is passed as parameters, wrap it in a list
@@ -98,7 +83,7 @@ def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title=
         raise Exception('Invalid data type %s' % data[0].dtype )
     
     # Number of different categories
-    num_de_categorias = len(categorias)
+    num_of_categories = len(categorias)
     
     # Number of series
     num_de_series = len(data)
@@ -107,7 +92,7 @@ def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title=
     colors = plt.cm.get_cmap(cmap, num_de_series)     
     
     # Position of each category
-    x_locations = np.arange(num_de_categorias) * num_de_series
+    x_locations = np.arange(num_of_categories) * num_de_series
     
     # Create figure
     if ax == None:
@@ -161,77 +146,58 @@ def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title=
 
 
 def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, shape = None, hspace=0.4, wspace=0.2, default_xticks_rotation=0, xticks_rotation={}, default_color='blue', colors={}, bins=30, title='', titles={}, default_ylabel='', ylabels={}, default_xlabel='', xlabels={}):
-    """
-    Plot a grid of subplots in which each subplot shows the distribution of a variable of the data frame. For
-    numerical variabels a histogram is shown. For categorical, a barplot whose bars lengths are proportional
-    to the percentage of each category in the column.
-    
-    The subplots are drawn in the default column order in the dataframe, or in the order specified in include_cols.
+    """Plot a grid of subplots in which each subplot shows the distribution of a variable of the data frame.
+
+    For numerical variabels a histogram is shown. For categorical, a barplot whose bars lengths are proportional
+    to the percentage of each category in the column. The subplots are drawn in the default column order in the
+    dataframe, or in the order specified in include_cols.
     
     Parameters
     ----------
-    
-        data_frame : pandas.Dataframe
-            The Pandas data frame whose columns will be plotted.
-            
-        include_cols : list
-            A list with the column names that should be included in the plot. Default is None, which means all columns. 
-            If this parameter is used, just the columns specified are included, in the given order.
-            
-        remove_cols : list
-            A list with the column names that should not be included in the plot. Columns listed here will be removed 
-            even if included in the include_cols list.
-            
-        shape : tuple
-            A (rows, columns) tuples indicating the shape of the grid. Default is to use the square root of the number of variables
-            as the number of columns, and as many rows as necessary to show all variables.
-            
-        hspace : float
-            Vertical space between subplots.
-            
-        wspace : float
-            Horizontal space betwwn subplots.
-        
-        default_xticks_rotation : float
-            Default roatation in degrees of the category names in bar grpahs.        
-        
-        xticks_rotation : dict
-            Dictionary associating column names to xtick label orientation (in degrees).
-
-        default_color : str
-            Default color name for all subplots.            
-            
-        colors : dict
-            Dictionary associating column names to colors (override defaults color).
-            
-        title : str
-            General title to use above all subplots.
-            
-        titles : dict
-            Dictionary associating column names to titles to use in each subplot. If a value is not specified for a
-            column, the colum name is used as title.
-            
-        default_ylabel : str
-            Default lable to use in the y axis.
-            
-        ylabels : dict
-            Dictionary associating columnnames to y labels to use in each subplot. If a value is not specified for a
-            column, the default_ylabel is used.
-            
-        default_xlabel : str
-            Default lable to use in the y axis.
-            
-        xlabels : dict
-            Dictionary associating columnnames to y labels to use in each subplot. If a value is not specified for a
-            column, the default_ylabel is used.
+    data_frame : pandas.Dataframe
+        The Pandas data frame whose columns will be plotted.
+    include_cols : list
+        A list with the column names that should be included in the plot. Default is None, which means all columns.
+        If this parameter is used, just the columns specified are included, in the given order.
+    remove_cols : list
+        A list with the column names that should not be included in the plot. Columns listed here will be removed
+        even if included in the include_cols list.
+    shape : tuple
+        A (rows, columns) tuples indicating the shape of the grid. Default is to use the square root of the number of variables
+        as the number of columns, and as many rows as necessary to show all variables.
+    hspace : float
+        Vertical space between subplots.
+    wspace : float
+        Horizontal space betwwn subplots.
+    default_xticks_rotation : float
+        Default roatation in degrees of the category names in bar grpahs.
+    xticks_rotation : dict
+        Dictionary associating column names to xtick label orientation (in degrees).
+    default_color : str
+        Default color name for all subplots.
+    colors : dict
+        Dictionary associating column names to colors (override defaults color).
+    title : str
+        General title to use above all subplots.
+    titles : dict
+        Dictionary associating column names to titles to use in each subplot. If a value is not specified for a
+        column, the colum name is used as title.
+    default_ylabel : str
+        Default lable to use in the y axis.
+    ylabels : dict
+        Dictionary associating columnnames to y labels to use in each subplot. If a value is not specified for a
+        column, the default_ylabel is used.
+    default_xlabel : str
+        Default lable to use in the y axis.
+    xlabels : dict
+        Dictionary associating columnnames to y labels to use in each subplot. If a value is not specified for a
+        column, the default_ylabel is used.
                 
                 
     Returns
     -------
-    
-        gs : GridSpec
-            Return the GridSpec created with the subplots.
-    
+    gs : GridSpec
+        Return the GridSpec created with the subplots.
     """
     
     # Keep just specified columns, if it is the case
@@ -307,6 +273,57 @@ def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, sha
             
     # Return the GridSpec with subplots
     return gs
+
+
+def add_extra_xaxis(fig, x, labels, padding=35):
+    """Add a x axis bellow the figure (indeed bellow the ax returned by fig.gca()) having the labels
+    in the x positions.
+
+    The axis is added by first adding an entire new axes and the hiding all
+    parts, except the xaxis.
+
+     Parameters
+    ------------
+    fig : Figure
+        The figure where to add the xaxis.
+    x : list
+        List of numbers specifying the x positions.
+    labels : list
+        List of strings specifying the labels to place in the x positions.
+    padding : int
+        How much space should be added between the figure and the new x axis bellow it.
+
+     Returns
+    ---------
+    new_ax : Axes
+        Return the axes added to the image (where the x axis was plotted).
+    """
+
+    # Add some space bellow the figure
+    fig.subplots_adjust(bottom=0.2)
+
+    # Get current ax
+    ax = fig.gca()
+
+    # Add a new ax to the figure
+    new_ax = fig.add_axes(ax.get_position())
+
+    # Hide the the plot area and the yaxis
+    new_ax.patch.set_visible(False)
+    new_ax.yaxis.set_visible(False)
+
+    # Hide spines (unless the boottom one)
+    for spinename, spine in new_ax.spines.iteritems():
+        if spinename != 'bottom':
+            spine.set_visible(False)
+
+    # Set the ....
+    new_ax.spines['bottom'].set_position(('outward', padding))
+
+    # Change tick labels
+    plt.xticks([0] + x, [''] + labels) # the [0] and [''] stuff is to add an empty lable in the first position
+
+    return new_ax
 
 if __name__=='__main__':
     

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Extends matplotlib scatter plot to add tooltips that are shown when the mouse is over the point.
+"""Functions to create graphs for ploting distributions of two variables at the same time.
 
 TODO: Instead of calling plot for each point, we should use directly plt.scatter function and then get the points and add the annotations.
 """
@@ -9,9 +8,7 @@ import matplotlib.pyplot as plt
 
 
 def drawTipBox(x, y, text, color, ax, alpha=0.9,):
-    """
-    Adds a tootip box with text in he point on the ax specified with the color and alpha parameters.
-    """
+    """ Adds a tootip box with text in he point on the ax specified with the color and alpha parameters. """
 
     # Containing box parameters
     bbox_props = dict(
@@ -49,12 +46,29 @@ def drawTipBox(x, y, text, color, ax, alpha=0.9,):
 
 
 def plot_mouse_over_scatter(x, y, tips, box_color=(0.95, 0.90, 1), c=None, marker='o', ax=None, **kwargs):
-    """
-    Draw a scatter plot adding a tooltip to be show when the mouse is passes over the point.
+    """ Draw a scatter plot adding a tooltip to be show when the mouse is passes over the point.
+
+    The function calls plt.plot(...) method to each point separatedly and adds a hidden (by default)
+    annotation over it. The annotation visibility is changed to True when the point is hovered.
 
      Parameters
     ------------
-    TODO:
+    x : list (of floats)
+        List of x coordinates.
+    y : list (of floats)
+        List of y coordinates.
+    tips : list (of strings)
+        List of the string that will be shown when the mouse is over the point.
+    box_collor : color
+        RGB color of the box behind the text. Default is (0.95, 0.90, 1).
+    c : TODO
+        TODO
+    marker : Any valid marker symbol used in matplotlib scatter plots.
+        The marker symbol.
+    ax ; Axes
+        The ax where the scatter will be plotted. Default is None.
+    **kwargs : dict or **kwargs
+        Key word args to be passed to plt.plot(...) function.
 
 
     """

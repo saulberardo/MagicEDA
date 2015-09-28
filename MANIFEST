@@ -2,5 +2,13 @@
 README
 setup.py
 bin/plot_data_frame_profile.py
+docs/_build/html/_sources/features.txt
+docs/_build/html/_sources/index.txt
+docs/_build/html/_sources/install_instructions.txt
+docs/_build/html/_sources/quick_start.txt
+docs/_build/html/_sources/quickstart.txt
+docs/_build/html/_sources/tutorial.txt
 magikeda/__init__.py
+magikeda/bivar.py
+magikeda/geo.py
 magikeda/univar.py
