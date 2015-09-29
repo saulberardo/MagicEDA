@@ -29,13 +29,13 @@ def _get_percentage_of_categorical(series):
 def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title='', width=0.9, xticks_rotation=0, series_legends=None, ax=None):
     """Plot a barplot showing the distribution of a categorical variable (for one or multiple series of data).
 
-    It's similar to `series.value_counts().plot(kind='bar')`, but can also be used with multiple serires at the same time (a lista of series in data).
+    It's similar to series.value_counts().plot(kind='bar') but can also be used with multiple serires at the same time (a lista of series in data).
 
     Parameters
     ----------
-    data : list_or_pandas_series
+    data : List
         Pandas series (with categorical data) or list of series. For multiple series, each categories are grouped together.
-    cmap : matplotlib.colors.LinearSegmentedColormap
+    cmap : str
         Colormap to use for determining each category color. Default is 'Accent'.
     color : Color
         color to use in the graph (overrides colormap colors). Default is None, which means not to override colormap colors.
@@ -49,11 +49,11 @@ def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title=
         Width of each bar. Default is 0.9
     xticks_rotation : float
         Degrees to rotate x labels.
-    series_legends : list
+    series_legends : List
         Lgends to identify each series.
-    legend : boolean
+    legend : bool
         Whether to show or not the legend box.
-    ax : matplotlib.axes_subplots.AxesSubplot
+    ax
         Axes in which to plot the graph
 
     Returns
@@ -76,7 +76,7 @@ def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title=
         # Get list of different strings
         categorias = np.unique(data)
         
-    # If it is a series create by `pd.Series([...], dtype='category')` or equivalent (e.g. `pd.Series(pd.Categorical([...], [...]))` )
+    # If it is a series create by pd.Series([...], dtype='category') or equivalent (e.g. pd.Series(pd.Categorical([...], [...])) )
     elif data_type == 'category':             
         
         # Get list of categories
@@ -153,7 +153,7 @@ def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, sha
 
     For numerical variables a histogram is shown. For categorical, a barplot whose bars lengths are proportional
     to the percentage of each category in the column. The subplots are drawn in the default column order in the
-    dataframe, or in the order specified in `include_cols`.
+    dataframe, or in the order specified in include_cols.
     
     Parameters
     ----------
