@@ -51,8 +51,8 @@ def plot_mouse_over_scatter(x, y, tips, box_color=(0.95, 0.90, 1), c=None, marke
     The function calls plt.plot(...) method to each point separatedly and adds a hidden (by default)
     annotation over it. The annotation visibility is changed to True when the point is hovered.
 
-     Parameters
-    ------------
+    Parameters
+    ----------
     x : list (of floats)
         List of x coordinates.
     y : list (of floats)
@@ -67,9 +67,8 @@ def plot_mouse_over_scatter(x, y, tips, box_color=(0.95, 0.90, 1), c=None, marke
         The marker symbol.
     ax ; Axes
         The ax where the scatter will be plotted. Default is None.
-    **kwargs : dict or **kwargs
+    kwargs : dict or kwargs
         Key word args to be passed to plt.plot(...) function.
-
 
     """
 

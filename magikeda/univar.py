@@ -29,11 +29,11 @@ def _get_percentage_of_categorical(series):
 def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title='', width=0.9, xticks_rotation=0, series_legends=None, ax=None):
     """Plot a barplot showing the distribution of a categorical variable (for one or multiple series of data).
 
-    It's similar to series.value_counts().plot(kind='bar'), but can also be used with multiple serires at the same time (a lista of series in data).
+    It's similar to `series.value_counts().plot(kind='bar')`, but can also be used with multiple serires at the same time (a lista of series in data).
 
     Parameters
     ----------
-    data : list or pandas.core.series.Series
+    data : list_or_pandas_series
         Pandas series (with categorical data) or list of series. For multiple series, each categories are grouped together.
     cmap : matplotlib.colors.LinearSegmentedColormap
         Colormap to use for determining each category color. Default is 'Accent'.
@@ -60,6 +60,7 @@ def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title=
     -------
     ax : matplotlib.axes_subplots.AxesSubplot
         Axes where the figure has been plotted.
+
     """
 
     # In the case a unique series is passed as parameters, wrap it in a list
@@ -75,7 +76,7 @@ def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title=
         # Get list of different strings
         categorias = np.unique(data)
         
-    # If it is a series create by pd.Series([...], dtype='category') or equivalent (e.g. pd.Series(pd.Categorical([...], [...])) )
+    # If it is a series create by `pd.Series([...], dtype='category')` or equivalent (e.g. `pd.Series(pd.Categorical([...], [...]))` )
     elif data_type == 'category':             
         
         # Get list of categories
@@ -150,9 +151,9 @@ def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title=
 def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, shape = None, hspace=0.4, wspace=0.2, default_xticks_rotation=0, xticks_rotation={}, default_color='blue', colors={}, bins=30, title='', titles={}, default_ylabel='', ylabels={}, default_xlabel='', xlabels={}):
     """Plot a grid of subplots in which each subplot shows the distribution of a variable of the data frame.
 
-    For numerical variabels a histogram is shown. For categorical, a barplot whose bars lengths are proportional
+    For numerical variables a histogram is shown. For categorical, a barplot whose bars lengths are proportional
     to the percentage of each category in the column. The subplots are drawn in the default column order in the
-    dataframe, or in the order specified in include_cols.
+    dataframe, or in the order specified in `include_cols`.
     
     Parameters
     ----------
@@ -172,7 +173,7 @@ def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, sha
     wspace : float
         Horizontal space betwwn subplots.
     default_xticks_rotation : float
-        Default roatation in degrees of the category names in bar grpahs.
+        Default rotation in degrees of the category names in bar graphs.
     xticks_rotation : dict
         Dictionary associating column names to xtick label orientation (in degrees).
     default_color : str
@@ -200,6 +201,7 @@ def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, sha
     -------
     gs : GridSpec
         Return the GridSpec created with the subplots.
+
     """
     
     # Keep just specified columns, if it is the case
@@ -278,14 +280,14 @@ def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, sha
 
 
 def add_extra_xaxis(fig, x, labels, padding=35):
-    """Add a x axis bellow the figure (indeed bellow the ax returned by fig.gca()) having the labels
+    """Add a x axis bellow the figure (indeed bellow the ax returned by `fig.gca()`) having the labels
     in the x positions.
 
     The axis is added by first adding an entire new axes and the hiding all
     parts, except the xaxis.
 
-     Parameters
-    ------------
+    Parameters
+    ----------
     fig : Figure
         The figure where to add the xaxis.
     x : list
@@ -295,10 +297,11 @@ def add_extra_xaxis(fig, x, labels, padding=35):
     padding : int
         How much space should be added between the figure and the new x axis bellow it.
 
-     Returns
-    ---------
+    Returns
+    -------
     new_ax : Axes
         Return the axes added to the image (where the x axis was plotted).
+
     """
 
     # Add some space bellow the figure

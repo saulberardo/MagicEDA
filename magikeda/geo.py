@@ -46,6 +46,7 @@ def plot_path_from_above(lon, lat, padding=1., show_map=True, color='red', aspec
         of the box containing the map can also be specified as (min_lat, max_lat, min_lon, max_lon).
     ax : AxesSubplot
         Axes where to plot the map.
+
     """
 
     # Determine min and max longitude and latitude and add padding around them

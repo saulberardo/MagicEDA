@@ -10,7 +10,7 @@ setup(
     url='http://pypi.python.org/pypi/MagikEDA/',
     license='LICENSE',
     description='Scripts to help Exploratory Data Analysis',
-    long_description=open('README.md').read(),
+    long_description=open('README').read(),
     install_requires=[
         "pandas >= 0.15.2",
         "numpy >= 1.9.2",
