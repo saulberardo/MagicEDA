@@ -280,7 +280,7 @@ def plot_dataframe_profile(data_frame, include_cols=None, exclude_cols=None, sha
 
 
 def add_extra_xaxis(fig, x, labels, padding=35):
-    """Add a x axis bellow the figure (indeed bellow the ax returned by `fig.gca()`) having the labels
+    """Add a x axis bellow the figure (indeed bellow the ax returned by fig.gca()) having the labels
     in the x positions.
 
     The axis is added by first adding an entire new axes and the hiding all
