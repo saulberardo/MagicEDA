@@ -21,6 +21,10 @@ import os
 #sys.path.insert(0, os.path.abspath('../MagikEDA'))
 sys.path.insert(0, '../magikeda')
 
+# The lines bellow were added in Magiked conf.py file in order to make readthedocs find modules files
+sys.path.insert(0, os.getcwd())
+sys.path.insert(0, os.path.join(os.getcwd(), os.pardir))
+
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
