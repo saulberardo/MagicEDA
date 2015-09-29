@@ -1,5 +1,5 @@
 # MagikEDA
-MagikEDA is a python library which provides a set of functions to create graphs meant to be useful in Exploratory Data Analysis (EDA). It is conceived to be at one layer above libraries such as Pandas and Basemap. For now it is nothing more than a crude collection of some functions I needed to create in the last few months and decided to move to a public repository;
+MagikEDA is a python library which provides a set of functions to create graphs meant to be useful in Exploratory Data Analysis (EDA). It is conceived to be at one layer above libraries such as Pandas and Basemap. For now it is nothing more than a crude collection of some functions I needed to create in the last few months and decided to move to a public repository. Luckly there will be here something somone will find useful. Any doubt, do not exitate in contacting me.
 
 # Features
 
