@@ -3,3 +3,5 @@ MagikEDA is a python library which provides a set of functions to create graphs 
 
 For documentation, see:
 http://magikeda.readthedocs.org/en/latest/
+
+.. include:: ../docs/features.rst
