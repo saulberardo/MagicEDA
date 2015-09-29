@@ -24,6 +24,9 @@ sys.path.insert(0, '../magikeda')
 sys.path.insert(0, '../..')
 sys.path.insert(0, '..')
 sys.path.insert(0, '.')
+sys.path.append(os.path.dirname(__file__))
+sys.path.append(os.path.join(  os.path.dirname(__file__), '../magikeda'  ) )
+sys.path.append(os.path.join(  os.path.dirname(__file__), './magikeda'  ) )
 
 # The lines bellow were added in Magiked conf.py file in order to make readthedocs find modules files
 sys.path.insert(0, os.getcwd())
