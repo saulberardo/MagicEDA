@@ -10,7 +10,7 @@ TODO:
 
 from math import radians, cos, sin, asin, sqrt
 from mpl_toolkits.basemap import Basemap
-import matplotlib.pylab as  plt
+import matplotlib.pyplot as  plt
 
 import numpy as np
 import gc
