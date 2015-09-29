@@ -9,8 +9,8 @@ TODO:
 """
 
 from math import radians, cos, sin, asin, sqrt
-from mpl_toolkits.basemap import Basemap
-import matplotlib.pyplot as  plt
+import mpl_toolkits.basemap as bm
+import matplotlib.pyplot as plt
 
 import numpy as np
 import gc
@@ -96,7 +96,7 @@ def plot_path_from_above(lon, lat, padding=1., show_map=True, color='red', aspec
     if show_map:
 
         # Create map centered around the path
-        m = Basemap(projection='merc',
+        m = bm.Basemap(projection='merc',
             resolution = 'l', area_thresh = 1,
             llcrnrlon= min_lon,
             urcrnrlon= max_lon,
