@@ -19,7 +19,11 @@ import os
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('../MagikEDA'))
+sys.path.insert(0, '../../magikeda')
 sys.path.insert(0, '../magikeda')
+sys.path.insert(0, '../..')
+sys.path.insert(0, '..')
+sys.path.insert(0, '.')
 
 # The lines bellow were added in Magiked conf.py file in order to make readthedocs find modules files
 sys.path.insert(0, os.getcwd())
