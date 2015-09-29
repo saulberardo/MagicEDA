@@ -29,6 +29,8 @@ def _get_percentage_of_categorical(series):
 def plot_bar_chart(data, cmap='Accent', color=None, xlabel='', ylabel='', title='', width=0.9, xticks_rotation=0, series_legends=None, ax=None):
     """Plot a barplot showing the distribution of a categorical variable (for one or multiple series of data).
 
+    It's similar to series.value_counts().plot(kind='bar'), but can also be used with multiple serires at the same time (a lista of series in data).
+
     Parameters
     ----------
     data : list or pandas.core.series.Series
