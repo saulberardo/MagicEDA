@@ -15,6 +15,7 @@ setup(
         "pandas >= 0.15.2",
         "numpy >= 1.9.2",
         "matplotlib >= 1.4.3",
+	"basemap >= 1.0.7"
     ],
 )
 
