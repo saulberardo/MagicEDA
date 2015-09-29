@@ -18,7 +18,7 @@ import os
 
 # The following was added so RTD with autodoc would work
 import mock
-MOCK_MODULES = ['numpy', 'scipy', 'matplotlib', 'matplotlib.pyplot', 'pandas', 'mpl_toolkits.basemap', 'matplotlib.gridspec']
+MOCK_MODULES = ['numpy', 'scipy', 'matplotlib', 'matplotlib.pyplot', 'pandas', 'mpl_toolkits', 'matplotlib.gridspec', 'mpl_toolkits.basemap']
 for mod_name in MOCK_MODULES:
     sys.modules[mod_name] = mock.Mock()
 
