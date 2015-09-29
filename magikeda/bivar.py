@@ -65,7 +65,7 @@ def plot_mouse_over_scatter(x, y, tips, box_color=(0.95, 0.90, 1), c=None, marke
         TODO
     marker : Any valid marker symbol used in matplotlib scatter plots.
         The marker symbol.
-    ax ; Axes
+    ax : Axes
         The ax where the scatter will be plotted. Default is None.
     kwargs : dict or kwargs
         Key word args to be passed to plt.plot(...) function.
